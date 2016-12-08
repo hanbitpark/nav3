@@ -8,6 +8,13 @@
     <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
     //읽고 쓰기 할대 사용하는 퍼미션
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!-- 5.0 버전 파일업로드 퍼미션 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- 카메라 퍼미션 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
     
 
     <application

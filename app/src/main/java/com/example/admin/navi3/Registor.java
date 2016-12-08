@@ -52,60 +52,7 @@ public class Registor extends AppCompatActivity {
 //                pass = Pass.getText().toString();
 //                conpass = ConPass.getText().toString();
 //
-//                if(id.equals("") || pass.equals("") || conpass.equals("")){
-//                    builder.setTitle("Something went wrong...");
-//                    builder.setMessage("Please fill all the fields...");
-//                    displayAlert("input_error");
 //                }
-//                else
-//                {
-//                    if(!(pass.equals(conpass))){
-//                        builder.setTitle("Somethins went wrong...");
-//                        builder.setMessage("your passwords are not matching...");
-//                        displayAlert("input_error");
-//                    }
-//                    else
-//                    {
-//                        StringRequest stringRequest = new StringRequest(Request.Method.POST, reg_url,
-//                                new Response.Listener<String>() {
-//                                    @Override
-//                                    public void onResponse(String response) {
-//                                        try {
-//                                            JSONArray jsonArray = new JSONArray(response);
-//                                            JSONObject jsonObject = jsonArray.getJSONObject(0);
-//                                            String code = jsonObject.getString("code");
-//                                            String message = jsonObject.getString("message");
-//                                            builder.setTitle("server response");
-//                                            builder.setMessage(message);
-//                                            displayAlert(code);
-//                                        } catch (JSONException e) {
-//                                            e.printStackTrace();
-//                                        }
-//
-//
-//                                    }
-//                                }, new Response.ErrorListener() {
-//                            @Override
-//                            public void onErrorResponse(VolleyError error) {
-//
-//                            }
-//                        })
-//
-//                        {
-//                            @Override
-//                            protected Map<String, String> getParams() throws AuthFailureError {
-//                                Map<String, String> params = new HashMap<String, String>();
-//                                params.put("id", id);
-//                                params.put("password", pass);
-//                                return params;
-//                            }
-//                        };
-//
-//                        MySingleton.getmInstance(Registor.this).addToRequestque(stringRequest);
-//                    }
-//
-//                }
-//            }
 //        });
 //
 //    }

@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
     public static LoginActivity loginActivity;
 
     private ProgressDialog mProgressDialog;
-    private AccessServiceAPI mServiceAccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,102 +98,7 @@ public class LoginActivity extends AppCompatActivity {
 
         progressBar = (ProgressBar)findViewById(R.id.progressBar_login);
 
-
-
-        /*btnLogin.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                id = Id.getText().toString();
-                pass = Pass.getText().toString();
-
-                progressBar.setVisibility(View.VISIBLE);
-
-                if(id.equals("") || pass.equals("")){
-                    builder.setTitle("Something went wrong");
-                    displayAlert("Enter a valid ID  and PASSWORD...");
-
-                }
-                else
-                {
-
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, login_url,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-
-                                    try {
-                                        Log.i("json", response);
-                                        JSONArray jsonArray = new JSONArray(response);
-                                        JSONObject jsonObject = jsonArray.getJSONObject(0);
-                                        String code = jsonObject.getString("code");
-
-                                        if (code.equals("login_failed")) {
-                                            builder.setTitle("Login Error");
-                                            displayAlert(jsonObject.getString("message"));
-                                        }
-                                        else
-                                        {
-
-                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                            Bundle bundle = new Bundle();
-                                            bundle.putString( "id", jsonObject.getString("id"));
-                                            bundle.putString( "cookie", cookie );
-                                            intent.putExtras(bundle);
-                                            startActivity(intent);
-                                        }
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-
-                        }
-                    })
-
-                     {
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-
-                            Map<String, String> params = new HashMap<String, String>();
-                            params.put("id", id);
-                            params.put("pass", pass);
-                            return params;
-                        }
-
-                    };
-
-                    MySingleton.getmInstance(LoginActivity.this).addToRequestque(stringRequest);
-
-                }
-            }
-        });*/
-
     }
-
-
-
-//    public void displayAlert(String message){
-//        builder.setMessage(message);
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Id.setText("");
-//                Pass.setText("");
-//
-//            }
-//        });
-//
-//        AlertDialog alertDialog = builder.create();
-//        alertDialog.show();
-//    }
-
 
     // 로그인 실패했을때 기존 값 불러오기
     @Override
@@ -221,25 +125,6 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-//            Create data to pass in param
-//            Map<String, String> param = new HashMap<>();
-//            param.put("id", params[0]);
-//            param.put("pass", params[1]);
-//
-//            JSONObject jObjResult;
-//            try{
-//
-//                jObjResult = mServiceAccess.convertJSONString2Obj(mServiceAccess.getJSONStringWithParam_POST(Common.SERVICE_API_URL, param));
-//
-//                return jObjResult.getString("result");
-//
-//            }catch (Exception e){
-//                // 0 -> true, 1->false
-//
-//               return Common.RESULT_ERROR;
-//
-//            }
-
 
             try {
 
