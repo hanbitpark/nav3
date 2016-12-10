@@ -112,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public class TaskLogin extends AsyncTask<String, Void, String>{
 
+
         private String id,pass;
         @Override
         protected void onPreExecute() {
@@ -195,7 +196,7 @@ public class LoginActivity extends AppCompatActivity {
                 return output;
 
             }catch(Exception e){
-                return null;
+                return "error";
             }
 
         }
@@ -203,8 +204,12 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String json) {
 
-            super.onPostExecute(json);
             mProgressDialog.dismiss();
+
+            //로그인 접속 예외처리
+            if(json.equals("error")){
+                Toast.makeText(getApplicationContext(),"인터넷 연결이 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+            }
 
             try {
                 JSONArray jsonArray = new JSONArray(json);
@@ -215,23 +220,19 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("bbbbbbbbbbbbbbbbb", result);
                 Log.i("ccccccccccccccccc", jsonId);
 
-                if(result.equals("login_success"))
-                {
-//                Toast.makeText(getApplicationContext(), json, Toast.LENGTH_LONG).show();
-//                Log.i("aaaaaaaaaaaaaaaaa", json);
+                if (result.equals("login_success")) {
+                    //                Toast.makeText(getApplicationContext(), json, Toast.LENGTH_LONG).show();
+                    //                Log.i("aaaaaaaaaaaaaaaaa", json);
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     i.putExtra("id", EditId.getText().toString());
                     startActivity(i);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getApplicationContext(), "Login Fail", Toast.LENGTH_SHORT).show();
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
 
         }
