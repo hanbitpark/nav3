@@ -20,6 +20,10 @@
     //진동퍼미션
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    //화면깨우기
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
