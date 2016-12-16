@@ -10,6 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
+import android.view.View;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -17,6 +18,11 @@ import com.google.firebase.messaging.RemoteMessage;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FirebaseMessingService";
+
+    @Override
+    public void onCreate() {
+        ScreenWakeOn();
+    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -30,29 +36,36 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void sendPushNotification(String title, String message) {
         System.out.println("received message : " + message);
         Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.choi)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.choi) )
-                .setContentTitle(title)
-                .setContentText(message)
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+
+        mBuilder
+                .setSmallIcon(R.drawable.ic_alarm_on_black_24dp)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_logo))
                 .setAutoCancel(true)
+                .setContentTitle(title)
                 .setPriority(Notification.PRIORITY_MAX)
-                .setSound(defaultSoundUri).setLights(000000255,500,2000)
-                .setContentIntent(pendingIntent);
+//                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+                .setContentText(message);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+        mBuilder.setAutoCancel(true);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mNotificationManager.notify(1, mBuilder.build());
+    }
 
-        PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wakelock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
+    public void ScreenWakeOn(){
+        PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wakelock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK |
+                PowerManager.ON_AFTER_RELEASE | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
+
         wakelock.acquire(5000);
-
-        notificationManager.notify(999 /* ID of notification */, notificationBuilder.build());
     }
 
 }

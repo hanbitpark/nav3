@@ -15,6 +15,10 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
+    //화면 깨우기 퍼미션션
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    //진동퍼미션
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -30,17 +34,11 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".Registor" />
         <activity android:name=".IntroActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <service android:name=".MyFirebaseMessagingService">
-
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service android:name=".MyFirebaseInstaceIDService">
@@ -49,6 +47,14 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".Main2Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

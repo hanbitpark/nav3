@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +35,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
@@ -119,8 +121,12 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //FCM 그룹별 발송설정
-        FirebaseMessaging.getInstance().subscribeToTopic("notice");
+
+        //FCM TOKEN생성
+        String token = FirebaseInstanceId.getInstance().getToken();
+
+        Log.d("newToken", token);
+        new HttpURL().execute(token);
 
         //로그인 액티비티 종료
 //        ((LoginActivity)LoginActivity.loginActivity).finish();
