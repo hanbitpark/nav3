@@ -33,6 +33,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate실행");
+
+        PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wakelock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
+        wakelock.acquire(500);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -46,55 +50,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String title = remoteMessage.getData().get("title");
         String message = remoteMessage.getData().get("message");
 
-//        Log.d("title", title);
-//        Log.d("mesage", message);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 
-        Context mContext = getApplicationContext();
-        RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.activity_intro);
+        mBuilder
+                .setSmallIcon(R.drawable.ic_alarm_on_black_24dp)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_logo))
+                .setAutoCancel(true)
+                .setContentTitle(title)
+                .setPriority(Notification.PRIORITY_MAX)
+//                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+                .setContentText(message);
 
-
-//        remoteViews.setTextViewText();
-        System.out.println("received message : " + message);
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
-
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.choi22);
-
-        Notification.Builder notificationBuilder = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            notificationBuilder = new Notification.Builder(this)
-                    .setSmallIcon(R.mipmap.choi11)
-                    //setvisibility 잠금화면에서 보여주기 public 전체콘텐츠보여주기, secret 어떤부분도 안보여줌 private, 기본정보만 보여줌
-                    .setVisibility(android.support.v7.app.NotificationCompat.VISIBILITY_PUBLIC)
-    //                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.choi22) )
-                    .setTicker("미리보기")
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setAutoCancel(true)
-                    .setVibrate(new long[] {500,100,500,100})
-                    .setSound(defaultSoundUri)
-//                    .setCustomContentView(remoteViews)
-    //                .setWhen(System.currentTimeMillis())
-    //                .setPriority(Notification.PRIORITY_MAX)
-                    .setContentIntent(pendingIntent);
-        }
-
-        notificationBuilder.setStyle(new Notification.BigPictureStyle()
-                .bigPicture(bitmap)
-                .setSummaryText(message)
-                .setBigContentTitle(title));
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wakelock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
-        wakelock.acquire(5000);
-
-        notificationManager.notify(999 /* ID of notification */, notificationBuilder.build());
-
+        mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+        mBuilder.setAutoCancel(true);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mNotificationManager.notify(1, mBuilder.build());
 
     }
 
