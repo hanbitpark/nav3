@@ -22,22 +22,30 @@ public class Main2Activity extends AppCompatActivity {
         String title = "nTitle";
         String message = "nMessage";
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-
-        mBuilder
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_alarm_on_black_24dp)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_logo))
                 .setAutoCancel(true)
                 .setContentTitle(title)
                 .setPriority(Notification.PRIORITY_MAX)
 //                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setContentText(message);
+                // 0-> waitTime, 1000->vibrateTime
+                .setVibrate(new long[]{0,1000})
+                .setContentText(message)
+                .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
+                .setAutoCancel(true);
 
-        mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-        mBuilder.setAutoCancel(true);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        String bigtitle = "bigtitle";
+        String bigtext = "bigtext";
+
+        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle(mBuilder)
+                .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.choi2)) //상단의 비트맵을 넣어준다.
+                .setBigContentTitle( bigtitle ) //열렸을때의 타이틀
+                .setSummaryText( bigtext /*getResources().getString( R.string.gcm_defaultSenderId)*/ ); //열렸을때의 Description
+
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mNotificationManager.notify(1, mBuilder.build());
+
 
     }
 }
