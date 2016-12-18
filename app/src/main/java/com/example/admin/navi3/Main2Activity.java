@@ -33,6 +33,7 @@ public class Main2Activity extends AppCompatActivity {
 //        String imgUrl = "https://i.ytimg.com/vi/B850LHUgKV4/hqdefault.jpg";
         String link = "http://ppuang.co.kr/bbs.php?type=star";
 //        Bitmap bitmap = imgUrl(String imgUrl);
+        String style = "LongBasic";
 
         //메시지 클릭후 이동할 주소
         Intent intent = new Intent(this, MainActivity.class);
@@ -58,24 +59,37 @@ public class Main2Activity extends AppCompatActivity {
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
 
-
         String bigtext2 = "bigtextTitle";
         String bigtext3 = "bigtextbigtextbigtextbigtextbigtextbigtextbigtextbigtextbigtextbigtext";
-
-//        NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle(mBuilder)
-//                .setBigContentTitle(bigtext2)
-//                .bigText(bigtext3);
-
 
         String bigtitle = "bigtitle";
         String bigtext = "bigtext";
 
-        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle(mBuilder)
+        switch(style){
+            case "Basic":
+                break;
+            case "LongBasic":
+
+
+                NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle(mBuilder)
+                    .setBigContentTitle(bigtext2)
+                    .bigText(bigtext3);
+
+                break;
+            case "Img":
+
+                NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle(mBuilder)
 //                .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.choi2)) //상단의 비트맵을 넣어준다.
-                .bigLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.choi2))
-                .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.choi2))
-                .setBigContentTitle( bigtitle ) //열렸을때의 타이틀
-                .setSummaryText( bigtext /*getResources().getString( R.string.gcm_defaultSenderId)*/ ); //열렸을때의 Description
+                        .bigLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.choi2))
+                        .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.choi2))
+                        .setBigContentTitle( bigtitle ) //열렸을때의 타이틀
+                        .setSummaryText( bigtext /*getResources().getString( R.string.gcm_defaultSenderId)*/ ); //열렸을때의 Description
+
+                break;
+        }
+
+
+
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mNotificationManager.notify(1, mBuilder.build());

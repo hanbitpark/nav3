@@ -50,11 +50,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PowerManager.WakeLock wakelock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
         wakelock.acquire(500);
 
+        String style = remoteMessage.getData().get("style");
         String title = remoteMessage.getData().get("title");
         String message = remoteMessage.getData().get("message");
         String imgUrl = remoteMessage.getData().get("imgUrl");
         String linkUrl = remoteMessage.getData().get("linkUrl");
 
+        Log.d(TAG, "style : " + style);
         Log.d(TAG, "title : " + title);
         Log.d(TAG, "message : " + message);
         Log.d(TAG, "imgUrl : " + imgUrl);
@@ -73,6 +75,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent, PendingIntent.FLAG_ONE_SHOT);
 
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_alarm_on_black_24dp)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_logo))
@@ -87,22 +90,28 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
 
-        String bigTexttitle = "bigtitle";
-        String bigText2 = "bigtextbigtextbigtextbigtextbigtextbigtextbigtextbigtextbigtextbigtext";
+        String bigTexttitle = title;
+        String bigText2 = message;
 
-//        NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle(mBuilder)
-//                .setBigContentTitle(bigTexttitle)
-//                .bigText(bigText2);
+        String bigtitle = title;
+        String bigtext = message;
 
-
-        String bigtitle = "bigtitle";
-        String bigtext = "bigtext";
-
-        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle(mBuilder)
+        switch (style){
+            case "Basic":
+                break;
+            case "LongBasic":
+                NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle(mBuilder)
+                        .setBigContentTitle(bigTexttitle)
+                        .bigText(bigText2);
+                break;
+            case "Img":
+                NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle(mBuilder)
 //                .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.choi2)) //상단의 비트맵을 넣어준다.
-                .bigPicture(bitmap)
-                .setBigContentTitle( bigtitle ) //열렸을때의 타이틀
-                .setSummaryText( bigtext /*getResources().getString( R.string.gcm_defaultSenderId)*/ ); //열렸을때의 Description
+                        .bigPicture(bitmap)
+                        .setBigContentTitle( bigtitle ) //열렸을때의 타이틀
+                        .setSummaryText( bigtext /*getResources().getString( R.string.gcm_defaultSenderId)*/ ); //열렸을때의 Description
+                break;
+        }
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mNotificationManager.notify(1, mBuilder.build());
