@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity
     private ValueCallback<Uri[]> filePathCallbackLollipop;
     private Uri mCapturedImageURI;
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     @Override
     protected void onStart() {
         CookieSyncManager.createInstance(this);
@@ -125,6 +127,9 @@ public class MainActivity extends AppCompatActivity
         //FCM TOKEN생성
         String token = FirebaseInstanceId.getInstance().getToken();
 
+        //푸시알림전송시 토픽명 그룹 전체에 메세지를 발송할수 있다(이해x)
+        FirebaseMessaging.getInstance().subscribeToTopic("notice");
+
         Log.d("newToken", token);
         new HttpURL().execute(token);
 
@@ -163,6 +168,18 @@ public class MainActivity extends AppCompatActivity
         //상단 새로고침
         mSwipeRefresh = (SwipeRefreshLayout)findViewById(R.id.webview_swipe_refresh);
 
+        
+////////////////////////////////////////////////////////////////////////
+        //메세지에 지정한 주소로 이동
+        String targetUrl = null;
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if(bundle != null){
+            if(bundle.getString("url") != null && !bundle.getString("url").equalsIgnoreCase("")){
+                targetUrl = bundle.getString("url");
+                Log.d(TAG, "targetUrl : " +targetUrl);
+            }
+        }
 ///////////////////////////////////////////////////////////////////////
         mWebView = (WebView)findViewById(R.id.webView);
         webviewinit();
@@ -170,7 +187,7 @@ public class MainActivity extends AppCompatActivity
         if(id != null){
             mWebView.loadUrl("http://ppuang.co.kr?ss_id=" + id);
         }else{
-            mWebView.loadUrl("http://ppuang.co.kr");
+            mWebView.loadUrl(targetUrl);
         }
 
 
