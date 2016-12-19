@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity
         
 ////////////////////////////////////////////////////////////////////////
         //메세지에 지정한 주소로 이동
-        String targetUrl = null;
+        String targetUrl = "http://ppuang.co.kr";
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if(bundle != null){

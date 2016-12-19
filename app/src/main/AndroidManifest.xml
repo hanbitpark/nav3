@@ -38,6 +38,11 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".Registor" />
         <activity android:name=".IntroActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <service android:name=".MyFirebaseMessagingService">
@@ -52,11 +57,6 @@
         </service>
 
         <activity android:name=".Main2Activity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
     </application>
